@@ -147,3 +147,11 @@ All dotfiles and operational configurations are organized in the following locat
 | `Swipe 3 fingers (Left / Right)` | Touchégg | Switch virtual desktop workspaces |
 | `Swipe 4 fingers (Up)` | Touchégg (`skippy-xd`) | Trigger expose overview mode |
 
+
+## Misc notes
+
+- `openbox --reconfigure`       : Reload openbox
+- `polybar-msg cmd restart`     : Reload polybar
+- `xprop WM_CLASS`              : Identify appname/classname 
+- `xprop WM_CLASS`              : Identify appname/classname 
+

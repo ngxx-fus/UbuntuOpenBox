@@ -1,0 +1,12 @@
+~/.config/openbox/autostart
+~/.config/openbox/rc.xml
+~/.config/openbox/polybar/config.ini
+~/.config/polybar/scripts/bluetooth.sh
+~/.config/openbox/picom/picom.conf
+~/.config/openbox/rofi/combi.rasi
+~/.themes/Breeze-ob-custom/openbox-3/themerc
+~/.config/touchegg/touchegg.conf
+~/.config/openbox/dunst/dunstrc
+~/.config/skippy-xd/skippy-xd.rc
+/etc/systemd/logind.conf
+/etc/X11/xorg.conf.d/30-touchpad.conf

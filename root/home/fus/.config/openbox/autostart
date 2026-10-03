@@ -1,0 +1,34 @@
+# Environment variables
+export GTK_IM_MODULE=fcitx
+export QT_IM_MODULE=fcitx
+export XMODIFIERS=@im=fcitx
+
+# Core services & Daemons
+lxpolkit &
+dunst -config ~/.config/openbox/dunst/dunstrc &
+picom --config ~/.config/openbox/picom/picom.conf -b &
+skippy-xd --start-daemon &
+fcitx5 -d &
+
+# Wallpaper & Bar
+feh --bg-fill ~/Pictures/Wallpapers/* &
+~/.config/openbox/polybar/polybar-ob &
+
+# Run xidlehook daemon with power-saving timers:
+# 1. Lock screen via betterlockscreen after 5 min (300s) of inactivity.
+# 2. Suspend system after an additional 10 min (600s) of inactivity.
+# Inactivity timer pauses when audio is playing or an app is fullscreen.
+xidlehook \
+  --not-when-audio \
+  --not-when-fullscreen \
+  --timer 300 'betterlockscreen -l blur' '' \
+  --timer 600 'systemctl suspend' '' &
+
+# First-login welcome
+if [ ! -f "$HOME/.cache/openbox/welcomed" ]; then
+    mkdir -p "$HOME/.cache/openbox"
+    touch "$HOME/.cache/openbox/welcomed"
+    (sleep 3; notify-send -u normal -t 15000 \
+        "Welcome to Openbox" \
+        "Press Super + / anytime to see all keybindings.&#10;See ~/QUICKSTART-openbox.md for a cheat sheet.") &
+fi
