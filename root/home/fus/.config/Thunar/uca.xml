@@ -5,7 +5,7 @@
 	<name>Open Terminal Here</name>
 	<submenu></submenu>
 	<unique-id>1790860072533174617-1</unique-id>
-	<command>gnome-terminal --working-directory %f</command>
+	<command>gnome-terminal --working-directory=%f</command>
 	<description>Open kitty in this folder</description>
 	<range></range>
 	<patterns>*</patterns>
