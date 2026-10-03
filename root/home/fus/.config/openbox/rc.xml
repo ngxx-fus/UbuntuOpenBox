@@ -616,14 +616,26 @@
 
     <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
     <keybind key="A-Tab">
-      <action name="Execute">
-        <command>/usr/local/bin/skippy-xd --toggle --expose</command>
+      <action name="NextWindow">
+        <dialog>list</dialog>
+        <bar>no</bar>
+        <finalactions>
+          <action name="Focus"/>
+          <action name="Raise"/>
+          <action name="Unshade"/>
+        </finalactions>
       </action>
     </keybind>
     <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
     <keybind key="W-Tab">
-      <action name="Execute">
-        <command>/usr/local/bin/skippy-xd --toggle --expose</command>
+      <action name="NextWindow">
+        <dialog>list</dialog>
+        <bar>no</bar>
+        <finalactions>
+          <action name="Focus"/>
+          <action name="Raise"/>
+          <action name="Unshade"/>
+        </finalactions>
       </action>
     </keybind>
     <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
