@@ -12,7 +12,7 @@
     <focusLast>yes</focusLast>
     <!-- Focus the last used window when changing desktops, instead of the one 
 		under the mouse pointer. when followMouse is enabled -->
-    <underMouse>ýe</underMouse>
+    <underMouse>yes</underMouse>
     <!-- Move focus under the mouse, even when the mouse is not moving -->
     <focusDelay>100</focusDelay>
     <!-- When followMouse is enabled, the mouse must be inside the window for
@@ -289,6 +289,11 @@
 
     <!-- Application Launchers ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
 
+    <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+    <!-- Show / Hide Desktop (Windows + D) -->
+    <keybind key="W-d">
+      <action name="ToggleShowDesktop"/>
+    </keybind>
     <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
     <!-- <keybind key="A-space">
       <action name="Execute">

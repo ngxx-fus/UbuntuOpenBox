@@ -106,8 +106,14 @@ sudo systemctl enable --now touchegg.service
 
 ```
 
----
+### 1.8. Standalone Super Key Mapping (xcape)
 
+```bash
+sudo apt update && sudo apt install -y xcape
+
+```
+
+---
 
 ## Configuration Paths
 
@@ -115,9 +121,9 @@ All dotfiles and operational configurations are organized in the following locat
 
 | Path | Description |
 | --- | --- |
-| `~/.config/openbox/autostart` | Session startup script (spawns Polybar, Picom, Fcitx5, daemons) |
-| `~/.config/openbox/rc.xml` | Keybindings, mouse actions, workspace settings, and quadrant window placement rules |
-| `~/.config/openbox/polybar/config.ini` | Top status bar configuration with custom IPC click events and Win10 status icons |
+| `~/.config/openbox/autostart` | Session startup script (spawns Polybar, Picom, Fcitx5, xcape, daemons) |
+| `~/.config/openbox/rc.xml` | Keybindings, focus policies, workspace rules, and quadrant window placement |
+| `~/.config/openbox/polybar/config.ini` | Top status bar configuration with custom IPC click actions and Win10 indicators |
 | `~/.config/polybar/scripts/bluetooth.sh` | Helper script checking Bluetooth device status, connected alias, and battery level |
 | `~/.config/openbox/picom/picom.conf` | Fast GLX compositor setup, shadows, and low-latency fading animations |
 | `~/.config/openbox/rofi/combi.rasi` | Custom unified application, window, and execution launcher theme ("Universe") |
@@ -125,7 +131,10 @@ All dotfiles and operational configurations are organized in the following locat
 | `~/.config/touchegg/touchegg.conf` | Touchpad multi-finger gesture bindings (window switcher, workspaces, expose) |
 | `~/.config/openbox/dunst/dunstrc` | Lightweight desktop notification styling and position rules |
 | `~/.config/skippy-xd/skippy-xd.rc` | Appearance, layout, and activation settings for the Expose window switcher |
+| `/etc/X11/xorg.conf.d/30-touchpad.conf` | Xorg driver configuration for touchpad tap-to-click and natural scrolling |
 | `/etc/systemd/logind.conf` | System power key interception (`HandlePowerKey=ignore`) |
+| `/etc/acpi/events/power-btn` | ACPI event definition redirecting the physical power button press |
+| `/etc/acpi/power-btn-handler.sh` | ACPI hook triggering `~/.config/openbox/scripts/power` in the user X session |
 
 ---
 
@@ -133,12 +142,15 @@ All dotfiles and operational configurations are organized in the following locat
 
 | Shortcut / Action | Command / Action | Description |
 | --- | --- | --- |
+| `Super` (Tap) | `xcape (Alt+Tab -> skippy-xd)` | Show all windows overview (like GNOME Activities) |
 | `Alt + Space` | `rofi -show combi ... "Universe"` | Open Universe multi-mode launcher |
+| `Super + d` | `ToggleShowDesktop` | Hide / Restore all active windows |
 | `Super + x` / `Power Button` | `~/.config/openbox/scripts/power` | Open power and logout menu |
 | `Super + r` | `alacritty` | Launch default terminal emulator |
 | `Super + b` | `firefox` | Open web browser |
 | `Super + v` | `copyq toggle` | Open clipboard manager history |
 | `Super + l` | `betterlockscreen -l blur` | Lock screen with blurred wallpaper |
+| `Super + Shift + s` | `flameshot gui` | Interactive screen region capture |
 | `Alt + Tab` / `Super + Tab` | `skippy-xd --toggle --expose` | Window expose overview |
 | `Super + Left / Right` | `MoveResizeTo (50% split)` | Snap window to left or right half-screen |
 | `Super + Up` | `ToggleMaximize` | Toggle window maximization |
@@ -147,11 +159,13 @@ All dotfiles and operational configurations are organized in the following locat
 | `Swipe 3 fingers (Left / Right)` | Touchégg | Switch virtual desktop workspaces |
 | `Swipe 4 fingers (Up)` | Touchégg (`skippy-xd`) | Trigger expose overview mode |
 
+---
 
-## Misc notes
+## Misc Notes
 
-- `openbox --reconfigure`       : Reload openbox
-- `polybar-msg cmd restart`     : Reload polybar
-- `xprop WM_CLASS`              : Identify appname/classname 
-- `xprop WM_CLASS`              : Identify appname/classname 
-
+* `openbox --reconfigure` : Reload Openbox keybindings and window placement rules.
+* `polybar-msg cmd restart` : Reload Polybar configuration without logging out.
+* `xprop WM_CLASS` : Click on any window to obtain its exact instance and class strings.
+* `xwininfo -name "<Title>"` : Identify top-level window ID and geometry by window title.
+* `pkill -USR1 -x sxhkd` : Reload custom shortcut daemons (if applicable).
+* `betterlockscreen -u <path/to/wallpapers/> -b 2.5` : Regenerate cached lockscreen backgrounds.

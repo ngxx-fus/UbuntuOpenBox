@@ -9,6 +9,7 @@ dunst -config ~/.config/openbox/dunst/dunstrc &
 picom --config ~/.config/openbox/picom/picom.conf -b &
 skippy-xd --start-daemon &
 fcitx5 -d &
+xcape -e 'Super_L=Alt_L|Tab' &
 
 # Wallpaper & Bar
 feh --bg-fill ~/Pictures/Wallpapers/* &
