@@ -1,3 +1,4 @@
+/home/fus/.config/openbox/
 /home/fus/.config/openbox/autostart
 /home/fus/.config/openbox/rc.xml
 /home/fus/.config/openbox/polybar/colors.ini
@@ -21,6 +22,7 @@
 /home/fus/.config/openbox/scripts/wallpaper-theme
 /home/fus/.config/openbox/scripts/weather
 /home/fus/.config/openbox/dunst/dunstrc
+/home/fus/.config/polybar/
 /home/fus/.config/polybar/scripts/bluetooth.sh
 /home/fus/.themes/Breeze-ob-custom/openbox-3/themerc
 /home/fus/.config/touchegg/touchegg.conf
