@@ -169,3 +169,7 @@ All dotfiles and operational configurations are organized in the following locat
 * `xwininfo -name "<Title>"` : Identify top-level window ID and geometry by window title.
 * `pkill -USR1 -x sxhkd` : Reload custom shortcut daemons (if applicable).
 * `betterlockscreen -u <path/to/wallpapers/> -b 2.5` : Regenerate cached lockscreen backgrounds.
+
+## Preview
+
+![img](./imgs/screenshot_20261003_211941.png)
