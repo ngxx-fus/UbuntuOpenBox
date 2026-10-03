@@ -173,3 +173,7 @@ All dotfiles and operational configurations are organized in the following locat
 ## Preview
 
 ![img](./imgs/screenshot_20261003_211941.png)
+
+![img](./imgs/screenshot_20261003_224439.png)
+
+![img](./imgs/screenshot_20261003_224533.png)
