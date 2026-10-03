@@ -1,0 +1,116 @@
+#!/bin/zsh
+
+set -e
+setopt EXTENDED_GLOB
+
+# CONFIG ######################################################
+
+DIR_BACKGROUND_IMGS="${HOME}/Pictures/Wallpapers"
+FILE_BACKGROUND_IM="${HOME}/Pictures/Wallpapers/default.png"
+
+# Set 0 if specifying a single image in FILE_BACKGROUND_IM
+CONF_INPUTDIR_EN=1
+
+# Set 1 for random selection, 0 for sequential order
+CONF_RANDOM_EN=1
+
+# Delay between wallpaper changes in seconds (e.g., 300 = 5 mins)
+CONF_INTERVAL=300
+
+# Match all variations (.jpg, .JPG, .Jpg, .png, .PNG, etc.)
+IMG_PATTERNS=('(#i)*.jpg' '(#i)*.jpeg' '(#i)*.png' '(#i)*.webp' '(#i)*.bmp')
+
+# FUNC UTILS ##################################################
+
+##
+ # Set desktop wallpaper via feh
+ # 
+ # @param 1 Target image path
+ # @return 0 on success, 1 on failure
+ ##
+SetWallpaper() {
+    local target_img="$1"
+
+    # Verify if target file exists and is readable
+    if [[ ! -r "$target_img" ]]; then
+        echo "[-] Error: Image not readable: ${target_img}"
+        # Exit function with error status
+        return 1
+    fi
+
+    # Apply wallpaper using feh fill mode
+    feh --bg-fill "$target_img"
+    echo "[+] Applied wallpaper: ${target_img}"
+
+    # Return success
+    return 0
+}
+
+# MAIN LOGIC ##################################################
+
+# Mode 1: Static single image
+if [[ $CONF_INPUTDIR_EN -eq 0 ]]; then
+    echo "=========================================================="
+    echo " Mode: Static Image"
+    echo "=========================================================="
+
+    # Expand tilde if present
+    target_file="${FILE_BACKGROUND_IM/#\~/$HOME}"
+
+    # Apply static wallpaper directly
+    SetWallpaper "$target_file"
+    # End execution for static mode
+    exit 0
+fi
+
+# Mode 2: Directory rotation
+target_dir="${DIR_BACKGROUND_IMGS/#\~/$HOME}"
+
+# Validate wallpaper directory
+if [[ ! -d "$target_dir" ]]; then
+    echo "[-] Error: Wallpaper directory does not exist: ${target_dir}"
+    # Stop script due to invalid directory
+    exit 1
+fi
+
+echo "=========================================================="
+echo " Mode: Directory Slideshow (${target_dir})"
+echo " Interval: ${CONF_INTERVAL}s | Random: ${CONF_RANDOM_EN}"
+echo "=========================================================="
+
+# Infinite loop for background wallpaper switching
+while true; do
+    # Collect images matching supported extensions inside target directory
+    image_list=()
+    for ext in "${IMG_PATTERNS[@]}"; do
+        # Use zsh globbing with nullglob equivalent (N) to avoid errors if pattern unmatched
+        image_list+=(${~target_dir}/${~ext}(N))
+    done
+
+    # Check if directory contains valid images
+    total_imgs=${#image_list[@]}
+    if [[ $total_imgs -eq 0 ]]; then
+        echo "[-] Error: No valid images found in ${target_dir}"
+        # Terminate loop when no assets are available
+        exit 1
+    fi
+
+    # Select image based on configuration
+    if [[ $CONF_RANDOM_EN -eq 1 ]]; then
+        # Pick random index (zsh arrays are 1-indexed)
+        rand_idx=$(( (RANDOM % total_imgs) + 1 ))
+        selected_img="${image_list[$rand_idx]}"
+        SetWallpaper "$selected_img"
+    else
+        # Loop sequentially through all found images
+        for selected_img in "${image_list[@]}"; do
+            SetWallpaper "$selected_img"
+            sleep "$CONF_INTERVAL"
+        done
+        # Restart loop after completing sequence
+        continue
+    fi
+
+    # Wait for the next rotation cycle
+    sleep "$CONF_INTERVAL"
+done

@@ -11,8 +11,8 @@ skippy-xd --start-daemon &
 fcitx5 -d &
 
 # Wallpaper & Bar
-feh --bg-fill ~/Pictures/Wallpapers/* &
-~/.config/openbox/polybar/polybar-ob &
+/home/fus/.config/openbox/scripts/background.sh &
+/home/fus/.config/openbox/polybar/polybar-ob &
 
 # Run xidlehook daemon with power-saving timers:
 # 1. Lock screen via betterlockscreen after 5 min (300s) of inactivity.
