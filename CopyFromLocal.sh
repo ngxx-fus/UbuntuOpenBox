@@ -136,15 +136,22 @@ while IFS= read -r raw_path || [ -n "$raw_path" ]; do
 
     dest_dir="$(dirname "$dest_path")"
 
-    echo "----------------------------------------------------------"
-    echo "Source : ${expanded_path}"
-    echo "Target : ${dest_path}"
+    # Check existence via user or sudo
+    is_dir=0
+    target_type="file"
 
-    # Verify if source file exists
-    if [ ! -f "$expanded_path" ] && ! sudo test -f "$expanded_path"; then
-        echo "[!] Source does not exist or is not a file: ${expanded_path}. Skipping."
+    if [ -d "$expanded_path" ] || sudo test -d "$expanded_path"; then
+        is_dir=1
+        target_type="folder"
+    elif [ ! -e "$expanded_path" ] && ! sudo test -e "$expanded_path"; then
+        echo "----------------------------------------------------------"
+        echo "[!] Source does not exist: ${expanded_path}. Skipping."
         continue
     fi
+
+    echo "----------------------------------------------------------"
+    echo "Source [${target_type}] : ${expanded_path}"
+    echo "Target [${target_type}] : ${dest_path}"
 
     do_copy=0
 
@@ -152,7 +159,7 @@ while IFS= read -r raw_path || [ -n "$raw_path" ]; do
         do_copy=1
     else
         # Prompt user with [y/n/a]
-        UserConfirmYNA "Do you want to copy this file?" || ret_code=$?
+        UserConfirmYNA "Do you want to copy this ${target_type}?" || ret_code=$?
         ret_code=${ret_code:-0}
 
         if [ $ret_code -eq 0 ]; then
@@ -166,16 +173,23 @@ while IFS= read -r raw_path || [ -n "$raw_path" ]; do
     fi
 
     if [ $do_copy -eq 1 ]; then
-        # Create target directory hierarchy
+        # Ensure parent destination directory exists
         if [ ! -d "$dest_dir" ]; then
             mkdir -p "$dest_dir"
         fi
 
-        # Use sudo if file cannot be read by current user
-        if [ -r "$expanded_path" ]; then
-            cp -vf "$expanded_path" "$dest_path"
+        # Choose copy flags (-a preserves mode, ownership/symlinks and copies recursively)
+        if [ $is_dir -eq 1 ]; then
+            CP_CMD=(cp -avT)
         else
-            sudo cp -vf "$expanded_path" "$dest_path"
+            CP_CMD=(cp -avf)
+        fi
+
+        # Use sudo if path cannot be read by current user
+        if [ -r "$expanded_path" ]; then
+            "${CP_CMD[@]}" "$expanded_path" "$dest_path"
+        else
+            sudo "${CP_CMD[@]}" "$expanded_path" "$dest_path"
             sudo chown -R "${USER}:${USER}" "$dest_path"
         fi
         echo "[+] Successfully copied: ${expanded_path}"
