@@ -1,6 +1,6 @@
 # OpenBox WM Minimal & Snappy Setup
 
-A minimal, performant, and responsive Openbox desktop environment on Ubuntu 24.04 LTS. Built with snappy GLX animations, Touchégg gesture navigation, Windows 10 style system indicators, and quadrant-docked utility windows.
+A minimal, performant, and responsive Openbox desktop environment on Ubuntu 24.04 LTS. Built with snappy GLX animations, Touchégg gesture navigation, Windows 10 style system indicators, Dunst OSD notifications, and quadrant-docked utility windows.
 
 ---
 
@@ -24,11 +24,11 @@ chsh -s $(which zsh)
 sudo apt update
 sudo apt install -y \
     openbox obconf tint2 feh picom rofi \
-    volumeicon-alsa network-manager-gnome \
+    volumeicon-alsa network-manager-gnome pamixer \
     lxappearance arc-theme papirus-icon-theme \
-    polybar alacritty copyq flameshot \
+    polybar gnome-terminal copyq flameshot \
     pavucontrol bluez blueman upower brightnessctl \
-    xdotool x11-utils libnotify-bin
+    xdotool x11-utils libnotify-bin thunar
 
 ```
 
@@ -78,7 +78,7 @@ cd /tmp/betterlockscreen && sudo ./install.sh system
 cd ~
 
 # Cache blurred lockscreen wallpaper
-betterlockscreen -u ~/Pictures/Wallpapers/ -b 2.5
+betterlockscreen -u ~/.config/openbox/wallpaper/ -b 2.5
 
 ```
 
@@ -122,19 +122,27 @@ All dotfiles and operational configurations are organized in the following locat
 | Path | Description |
 | --- | --- |
 | `~/.config/openbox/autostart` | Session startup script (spawns Polybar, Picom, Fcitx5, xcape, daemons) |
-| `~/.config/openbox/rc.xml` | Keybindings, focus policies, workspace rules, and quadrant window placement |
-| `~/.config/openbox/polybar/config.ini` | Top status bar configuration with custom IPC click actions and Win10 indicators |
-| `~/.config/polybar/scripts/bluetooth.sh` | Helper script checking Bluetooth device status, connected alias, and battery level |
+| `~/.config/openbox/environment` | Session environment variables |
+| `~/.config/openbox/rc.xml` | Keybindings, focus policies, window placement rules, and titlebar decorations |
+| `~/.config/openbox/menu.xml` | Openbox root desktop right-click menu |
+| `~/.config/openbox/polybar/` | Polybar root configurations (`config.ini`, `colors.ini`, launch helper) |
+| `~/.config/polybar/scripts/power_stat` | Custom battery telemetry script (Power W, %, ECT, charge states) |
+| `~/.config/polybar/scripts/bluetooth.sh` | Bluetooth status and paired device connection monitor |
+| `~/.config/openbox/scripts/changebrightness` | Screen brightness control with Dunst sync progress bar |
+| `~/.config/openbox/scripts/change_keyboard_brightlight` | Asus notebook keyboard backlight toggle script |
+| `~/.config/openbox/scripts/changevolume` | Audio volume and mute control with Dunst sync progress bar |
+| `~/.config/openbox/scripts/lock_screen.sh` | Betterlockscreen invocation hook |
+| `~/.config/openbox/scripts/power` | Power session management menu (Lock, Suspend, Reboot, Shutdown) |
 | `~/.config/openbox/picom/picom.conf` | Fast GLX compositor setup, shadows, and low-latency fading animations |
-| `~/.config/openbox/rofi/combi.rasi` | Custom unified application, window, and execution launcher theme ("Universe") |
-| `~/.themes/Breeze-ob-custom/openbox-3/themerc` | Window border styling, titlebar buttons, and window frame metrics |
-| `~/.config/touchegg/touchegg.conf` | Touchpad multi-finger gesture bindings (window switcher, workspaces, expose) |
+| `~/.config/openbox/rofi/` | Application launcher themes (`config.rasi`, `combi.rasi`, `power.rasi`, `keybinds.rasi`) |
 | `~/.config/openbox/dunst/dunstrc` | Lightweight desktop notification styling and position rules |
-| `~/.config/skippy-xd/skippy-xd.rc` | Appearance, layout, and activation settings for the Expose window switcher |
+| `~/.config/openbox/wallpaper/` | Bundled high-resolution desktop wallpapers |
+| `~/.config/skippy-xd/skippy-xd.rc` | Layout and activation settings for the Expose window switcher |
+| `~/.config/touchegg/touchegg.conf` | Multi-finger gesture bindings (window switcher, workspaces, expose) |
+| `~/.config/Thunar/uca.xml` | Thunar custom actions and context menu extensions |
+| `~/.themes/Breeze-ob-custom/openbox-3/themerc` | Window border styling, frame metrics, and colors |
 | `/etc/X11/xorg.conf.d/30-touchpad.conf` | Xorg driver configuration for touchpad tap-to-click and natural scrolling |
 | `/etc/systemd/logind.conf` | System power key interception (`HandlePowerKey=ignore`) |
-| `/etc/acpi/events/power-btn` | ACPI event definition redirecting the physical power button press |
-| `/etc/acpi/power-btn-handler.sh` | ACPI hook triggering `~/.config/openbox/scripts/power` in the user X session |
 
 ---
 
@@ -143,10 +151,10 @@ All dotfiles and operational configurations are organized in the following locat
 | Shortcut / Action | Command / Action | Description |
 | --- | --- | --- |
 | `Super` (Tap) | `xcape (Alt+Tab -> skippy-xd)` | Show all windows overview (like GNOME Activities) |
-| `Alt + Space` | `rofi -show combi ... "Universe"` | Open Universe multi-mode launcher |
+| `Alt + Space` | `rofi -show combi ...` | Open unified multi-mode launcher |
 | `Super + d` | `ToggleShowDesktop` | Hide / Restore all active windows |
 | `Super + x` / `Power Button` | `~/.config/openbox/scripts/power` | Open power and logout menu |
-| `Super + r` | `alacritty` | Launch default terminal emulator |
+| `Super + r` | `gnome-terminal` | Launch default GNOME Terminal |
 | `Super + b` | `firefox` | Open web browser |
 | `Super + v` | `copyq toggle` | Open clipboard manager history |
 | `Super + l` | `betterlockscreen -l blur` | Lock screen with blurred wallpaper |
@@ -156,6 +164,9 @@ All dotfiles and operational configurations are organized in the following locat
 | `Super + Up` | `ToggleMaximize` | Toggle window maximization |
 | `Super + Down` | `MoveToCenter (50% size)` | Restore and center floating window |
 | `Super + Space` | `fcitx5-remote -t` | Toggle input engine (Vietnamese / English) |
+| `XF86MonBrightnessUp / Down` | `changebrightness {up|down}` | Display brightness with Dunst OSD progress bar |
+| `XF86KbdBrightnessUp / Down` | `change_keyboard_brightlight` | Toggle Asus keyboard backlight levels |
+| `XF86AudioRaise / Lower / Mute` | `changevolume {up|down|mute}` | Sound volume and mute with Dunst OSD |
 | `Swipe 3 fingers (Left / Right)` | Touchégg | Switch virtual desktop workspaces |
 | `Swipe 4 fingers (Up)` | Touchégg (`skippy-xd`) | Trigger expose overview mode |
 
@@ -164,16 +175,11 @@ All dotfiles and operational configurations are organized in the following locat
 ## Misc Notes
 
 * `openbox --reconfigure` : Reload Openbox keybindings and window placement rules.
+* `openbox --restart` : Restart Openbox in-place to apply global frame decoration changes.
 * `polybar-msg cmd restart` : Reload Polybar configuration without logging out.
 * `xprop WM_CLASS` : Click on any window to obtain its exact instance and class strings.
 * `xwininfo -name "<Title>"` : Identify top-level window ID and geometry by window title.
-* `pkill -USR1 -x sxhkd` : Reload custom shortcut daemons (if applicable).
-* `betterlockscreen -u <path/to/wallpapers/> -b 2.5` : Regenerate cached lockscreen backgrounds.
+* `betterlockscreen -u ~/.config/openbox/wallpaper/ -b 2.5` : Regenerate cached lockscreen backgrounds.
 
 ## Preview
 
-![img](./imgs/screenshot_20261003_211941.png)
-
-![img](./imgs/screenshot_20261003_224439.png)
-
-![img](./imgs/screenshot_20261003_224533.png)
