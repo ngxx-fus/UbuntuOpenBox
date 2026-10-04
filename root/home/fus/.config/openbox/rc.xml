@@ -178,6 +178,7 @@
   <applications>
     <!-- Most app -->
     <application class="*" name="*">
+      <decor>no</decor>
       <position force="yes">
         <x>center</x>
         <y>center</y>
