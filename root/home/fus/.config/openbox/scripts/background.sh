@@ -6,9 +6,9 @@ setopt EXTENDED_GLOB
 # CONFIG ######################################################
 
 DIR_BACKGROUND_IMGS="${HOME}/Pictures/Wallpapers"
-FILE_BACKGROUND_IM="${HOME}/Pictures/Wallpapers/default.png"
+FILE_BACKGROUND_IMG="${HOME}/Pictures/Wallpapers/default.png"
 
-# Set 0 if specifying a single image in FILE_BACKGROUND_IM
+# Set 0 if specifying a single image in FILE_BACKGROUND_IMG
 CONF_INPUTDIR_EN=1
 
 # Set 1 for random selection, 0 for sequential order
@@ -55,7 +55,7 @@ if [[ $CONF_INPUTDIR_EN -eq 0 ]]; then
     echo "=========================================================="
 
     # Expand tilde if present
-    target_file="${FILE_BACKGROUND_IM/#\~/$HOME}"
+    target_file="${FILE_BACKGROUND_IMG/#\~/$HOME}"
 
     # Apply static wallpaper directly
     SetWallpaper "$target_file"

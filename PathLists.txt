@@ -28,5 +28,8 @@
 /home/fus/.config/touchegg/touchegg.conf
 /home/fus/.config/skippy-xd/skippy-xd.rc
 /home/fus/.config/Thunar/uca.xml
+/etc/acpi/
+/etc/acpi/handler.sh
+/etc/acpi/events/anything
 /etc/systemd/logind.conf
 /etc/X11/xorg.conf.d/30-touchpad.conf

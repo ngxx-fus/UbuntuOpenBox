@@ -774,16 +774,35 @@
         <command>/home/fus/.config/openbox/scripts/change_keyboard_brightlight down</command>
       </action>
     </keybind>
-
-
     <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
     <keybind key="XF86KbdLightOnOff">
       <action name="Execute">
         <command>/home/fus/.config/openbox/scripts/change_keyboard_brightlight</command>
       </action>
     </keybind>
-    <!-- Screenshots -->
+    <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+    <!-- Mute microphone and send notification -->
+    <keybind key="XF86AudioMicMute">
+        <action name="Execute">
+            <command>sh -c 'pactl set-source-mute @DEFAULT_SOURCE@ 1 ; notify-send "Microphone" "Muted"'</command>
+        </action>
+    </keybind>
 
+    <!-- Unmute microphone and send notification -->
+    <keybind key="XF86Launch5">
+        <action name="Execute">
+            <command>sh -c 'pactl set-source-mute @DEFAULT_SOURCE@ 0 ; notify-send "Microphone" "Unmuted"'</command>
+        </action>
+    </keybind>
+    <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+    <keybind key="XF86TouchpadToggle">
+        <action name="Execute">
+            <command>/home/fus/.config/openbox/scripts/toggle_touchpad.sh</command>
+        </action>
+    </keybind>
+
+    <!-- Screenshots ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+    
     <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
     <keybind key="Print">
       <action name="Execute">
