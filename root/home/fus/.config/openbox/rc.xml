@@ -753,27 +753,25 @@
     <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
     <keybind key="XF86MonBrightnessDown">
       <action name="Execute">
-        <command>xbacklight -dec 5</command>
+        <command>~/.config/openbox/scripts/changebrightness down</command>
       </action>
     </keybind>
     <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
     <keybind key="XF86MonBrightnessUp">
       <action name="Execute">
-        <command>xbacklight -inc 5</command>
+        <command>~/.config/openbox/scripts/changebrightness up</command>
       </action>
     </keybind>
     <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
     <keybind key="XF86KbdBrightnessUp">
       <action name="Execute">
-        <command>/home/fus/.config/openbox/scripts/change_keyboard_brightlight</command>
+        <command>/home/fus/.config/openbox/scripts/change_keyboard_brightlight up</command>
       </action>
     </keybind>
-
-
     <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
     <keybind key="XF86KbdBrightnessDown">
       <action name="Execute">
-        <command>/home/fus/.config/openbox/scripts/change_keyboard_brightlight</command>
+        <command>/home/fus/.config/openbox/scripts/change_keyboard_brightlight down</command>
       </action>
     </keybind>
 
