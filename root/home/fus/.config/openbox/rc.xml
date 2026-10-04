@@ -320,18 +320,6 @@
       </action>
     </keybind>
     <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
-    <keybind key="W-b">
-      <action name="Execute">
-        <command>firefox-esr</command>
-      </action>
-    </keybind>
-    <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
-    <keybind key="W-S-b">
-      <action name="Execute">
-        <command>firefox-esr -private-window</command>
-      </action>
-    </keybind>
-    <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
     <keybind key="W-e">
       <action name="Execute">
         <command>thunar</command>
@@ -852,42 +840,27 @@
     <keybind key="W-A-r">
       <action name="Reconfigure"/>
     </keybind>
+
+    <!-- Emergency -->
+
     <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
     <keybind key="W-S-q">
-      <action name="Exit"/>
-    </keybind>
-
-    <!-- quickshell: wallpaper picker, network app, command menu, bar restart (match bspwm bindings) -->
-
-    <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
-    <keybind key="W-S-t">
-      <action name="Execute">
-        <command>sh -c 'qs -p "$HOME/.config/openbox/quickshell" ipc call wallpapers toggle'</command>
-      </action>
+        <action name="Exit"/>
     </keybind>
     <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
-    <keybind key="W-n">
-      <action name="Execute">
-        <command>sh -c '"$HOME/.config/openbox/scripts/network"'</command>
-      </action>
+    <keybind key="W-A-S-q">
+        <action name="Execute">
+            <command>sh -c 'sleep 5 ; systemctl poweroff'</command>
+        </action>
     </keybind>
-    <!-- command menu: W-m here (W-S-m is keyboard Move on openbox; bspwm/dwm use super+shift+m) -->
-
     <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
-    <keybind key="W-m">
-      <action name="Execute">
-        <command>sh -c 'qs -p "$HOME/.config/openbox/quickshell" ipc call commands toggle'</command>
-      </action>
+    <keybind key="W-S-b">
+        <action name="Execute">
+            <command>sh -c 'killall picom ; picom -b'</command>
+        </action>
     </keybind>
-    <!-- restart the quickshell bar (recovery; W-S-r restarts openbox) -->
 
-    <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
-    <keybind key="W-C-r">
-      <action name="Execute">
-        <command>sh -c '"$HOME/.config/openbox/scripts/bar" restart'</command>
-      </action>
-    </keybind>
-  </keyboard>
+  <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
   <mouse>
     <dragThreshold>1</dragThreshold>
     <!-- number of pixels the mouse must move before a drag begins -->
