@@ -304,7 +304,7 @@
     <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
     <keybind key="A-space">
       <action name="Execute">
-        <command>rofi -show combi -combi-modes "window,drun,run" -modes combi -show-icons -display-combi "Universe" -theme ~/.config/openbox/rofi/combi.rasi</command>
+        <command>rofi -show combi -combi-modes "window,drun,run" -modes combi -show-icons -display-combi "Universe" -theme /home/fus/.config/openbox/rofi/config.rasi</command>
       </action>
     </keybind>
     <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
@@ -617,14 +617,16 @@
     </keybind>
     <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
     <keybind key="W-Tab">
-      <action name="NextWindow">
-        <dialog>list</dialog>
-        <bar>no</bar>
-        <finalactions>
-          <action name="Focus"/>
-          <action name="Raise"/>
-          <action name="Unshade"/>
-        </finalactions>
+      <action name="Execute">
+      <!-- <action name="NextWindow">
+      <dialog>list</dialog>
+      <bar>no</bar>
+      <finalactions>
+        <action name="Focus"/>
+        <action name="Raise"/>
+        <action name="Unshade"/>
+      </finalactions> -->
+      <command>/usr/local/bin/skippy-xd --toggle --expose</command>
       </action>
     </keybind>
     <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
@@ -691,6 +693,12 @@
       <action name="DirectionalCycleWindows">
         <direction>down</direction>
         <dialog>no</dialog>
+      </action>
+    </keybind>
+    <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+    <keybind key="W-p">
+      <action name="Execute">
+        <command>/bin/bash -c "/home/fus/.config/openbox/scripts/switch_display.sh"</command>
       </action>
     </keybind>
 
