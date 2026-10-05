@@ -72,3 +72,6 @@ case "$CHOICE" in
         echo 3 > "$PROJECT_MODE"
         ;;
 esac
+
+# Restart polybar to match the updated display state
+/home/fus/.config/openbox/polybar/polybar-ob &

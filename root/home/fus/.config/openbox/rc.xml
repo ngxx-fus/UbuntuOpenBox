@@ -258,6 +258,18 @@
       </position>
       <layer>above</layer>
     </application>
+    <application class="float-term">
+      <maximized>no</maximized>
+      <size>
+        <width>30%</width>
+        <height>45%</height>
+      </size>
+      <position force="yes">
+        <x>-10</x>
+        <y>38</y>
+      </position>
+      <layer>above</layer>
+    </application>
     <!-- xev -->
     <application title="Event Tester">
       <maximized>no</maximized>
