@@ -125,16 +125,18 @@ All dotfiles and operational configurations are organized in the following locat
 | `~/.config/openbox/environment` | Session environment variables |
 | `~/.config/openbox/rc.xml` | Keybindings, focus policies, window placement rules, and titlebar decorations |
 | `~/.config/openbox/menu.xml` | Openbox root desktop right-click menu |
-| `~/.config/openbox/polybar/` | Polybar root configurations (`config.ini`, `colors.ini`, launch helper) |
+| `~/.config/openbox/polybar/` | Polybar root configurations (`config.ini`, `colors.ini`, `polybar-ob` launch helper) |
 | `~/.config/polybar/scripts/power_stat` | Custom battery telemetry script (Power W, %, ECT, charge states) |
 | `~/.config/polybar/scripts/bluetooth.sh` | Bluetooth status and paired device connection monitor |
+| `~/.config/polybar/scripts/backlight_check.sh` | Auto-detect active internal eDP/LVDS display; handles brightness and hides module when absent |
 | `~/.config/openbox/scripts/changebrightness` | Screen brightness control with Dunst sync progress bar |
 | `~/.config/openbox/scripts/change_keyboard_brightlight` | Asus notebook keyboard backlight toggle script |
 | `~/.config/openbox/scripts/changevolume` | Audio volume and mute control with Dunst sync progress bar |
+| `~/.config/openbox/scripts/switch_display.sh` | Multi-monitor display projection mode switcher (Win + P style via Rofi) |
 | `~/.config/openbox/scripts/lock_screen.sh` | Betterlockscreen invocation hook |
 | `~/.config/openbox/scripts/power` | Power session management menu (Lock, Suspend, Reboot, Shutdown) |
 | `~/.config/openbox/picom/picom.conf` | Fast GLX compositor setup, shadows, and low-latency fading animations |
-| `~/.config/openbox/rofi/` | Application launcher themes (`config.rasi`, `combi.rasi`, `power.rasi`, `keybinds.rasi`) |
+| `~/.config/openbox/rofi/` | Application launcher themes (`config.rasi`, `combi.rasi`, `power.rasi`, `popup.rasi`, `keybinds.rasi`) |
 | `~/.config/openbox/dunst/dunstrc` | Lightweight desktop notification styling and position rules |
 | `~/.config/openbox/wallpaper/` | Bundled high-resolution desktop wallpapers |
 | `~/.config/skippy-xd/skippy-xd.rc` | Layout and activation settings for the Expose window switcher |
@@ -155,6 +157,7 @@ All dotfiles and operational configurations are organized in the following locat
 | `Super + d` | `ToggleShowDesktop` | Hide / Restore all active windows |
 | `Super + x` / `Power Button` | `~/.config/openbox/scripts/power` | Open power and logout menu |
 | `Super + r` | `gnome-terminal` | Launch default GNOME Terminal |
+| `Super + p` | `~/.config/openbox/scripts/switch_display.sh` | Multi-display projection switcher (PC only, Duplicate, Extend, Second only) |
 | `Super + b` | `firefox` | Open web browser |
 | `Super + v` | `copyq toggle` | Open clipboard manager history |
 | `Super + l` | `betterlockscreen -l blur` | Lock screen with blurred wallpaper |
@@ -164,11 +167,20 @@ All dotfiles and operational configurations are organized in the following locat
 | `Super + Up` | `ToggleMaximize` | Toggle window maximization |
 | `Super + Down` | `MoveToCenter (50% size)` | Restore and center floating window |
 | `Super + Space` | `fcitx5-remote -t` | Toggle input engine (Vietnamese / English) |
-| `XF86MonBrightnessUp / Down` | `changebrightness {up|down}` | Display brightness with Dunst OSD progress bar |
+| `XF86MonBrightnessUp / Down` | `changebrightness {up | down}` |
 | `XF86KbdBrightnessUp / Down` | `change_keyboard_brightlight` | Toggle Asus keyboard backlight levels |
-| `XF86AudioRaise / Lower / Mute` | `changevolume {up|down|mute}` | Sound volume and mute with Dunst OSD |
+| `XF86AudioRaise / Lower / Mute` | `changevolume {up | down |
 | `Swipe 3 fingers (Left / Right)` | Touchégg | Switch virtual desktop workspaces |
 | `Swipe 4 fingers (Up)` | Touchégg (`skippy-xd`) | Trigger expose overview mode |
+
+---
+
+## Polybar Module Highlights
+
+* **Dynamic Backlight (`backlight_ext`)**: Controlled via `backlight_check.sh`. Automatically detects if the internal panel (`eDP`/`LVDS`) is connected. When absent or lid is closed, the module hides cleanly without breaking bar layout or throwing unparsed `%percentage%%` errors.
+* **Smart Audio Control (`pulseaudio`)**: Wrapped with action tags (`%{A4:...}%{A5:...}`) so mouse-wheel scrolling directly executes `changevolume` to trigger the Dunst OSD.
+* **Simplified Ethernet (`eth`)**: Clean icon-only representation (`󰈀`) that completely hides itself when disconnected.
+* **Wi-Fi Manager (`wlan`)**: Shows Wi-Fi status and opens `gnome-terminal -- nmtui-connect` on click when disconnected.
 
 ---
 
@@ -181,7 +193,11 @@ All dotfiles and operational configurations are organized in the following locat
 * `xwininfo -name "<Title>"` : Identify top-level window ID and geometry by window title.
 * `betterlockscreen -u ~/.config/openbox/wallpaper/ -b 2.5` : Regenerate cached lockscreen backgrounds.
 
- ## Preview
+## Preview
+
+```
+
+```
 
 
 ![img](./imgs/screenshot_20261003_211941.png)
