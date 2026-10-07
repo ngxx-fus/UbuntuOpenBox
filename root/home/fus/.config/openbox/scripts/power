@@ -5,34 +5,87 @@
 # Requirements:
 # - rofi
 # - systemd (can be replaced for other init systems if needed)
+# - libnotify (notify-send)
 #
 # Instructions:
 # - Save this file as power.sh
 # - Make it executable: chmod +x /path/to/power.sh
 # - Run it
 
-ROFI_THEME="$HOME/.config/openbox/rofi/power.rasi"
+ROFI_THEME="$HOME/.config/openbox/rofi/popup.rasi"
 
-chosen=$(printf '%s\n' "[Cancel]" "Lock" "Suspend" "Logout" "Reboot" "Shutdown" | \
-    rofi -dmenu -i -p "Power Menu" -line-padding 4 -hide-scrollbar -theme "$ROFI_THEME")
+# Define visual action entries using Nerd Font icons
+cancel="󰜺  Cancel"
+mode_power="󰾆  Power Save"
+mode_perf="󰓅  Performance"
+sys_lock="󰌾  Lock"
+sys_suspend="󰒲  Suspend"
+sys_logout="󰍃  Logout"
+sys_reboot="󰜉  Reboot"
+sys_shutdown="󰐥  Shutdown"
 
+chosen=$(printf '%s\n' \
+    "$cancel" \
+    "$mode_power" \
+    "$mode_perf" \
+    "$sys_lock" \
+    "$sys_suspend" \
+    "$sys_logout" \
+    "$sys_reboot" \
+    "$sys_shutdown" | \
+    rofi -dmenu -i -p "Quick Menu" -line-padding 4 -hide-scrollbar -theme "$ROFI_THEME")
+
+# Match user selection and execute corresponding action
 case "$chosen" in
-    "Lock")
+    "$mode_perf")
+        # Apply performance profile via power-profiles-daemon
+        powerprofilesctl set performance
+
+        # Verify through active profile
+        if [ "$(powerprofilesctl get)" = "performance" ]; then
+            notify-send -u low -i preferences-system-power "Power Management" "Profile: Performance"
+        else
+            notify-send -u critical -i dialog-error "Power Management" "Failed to set Performance"
+        fi
+        ;;
+
+    "$mode_power")
+        # Apply power-saver profile via power-profiles-daemon
+        powerprofilesctl set power-saver
+
+        # Verify through active profile
+        if [ "$(powerprofilesctl get)" = "power-saver" ]; then
+            notify-send -u low -i preferences-system-power "Power Management" "Profile: Power-saver"
+        else
+            notify-send -u critical -i dialog-error "Power Management" "Failed to set Power-saver"
+        fi
+        ;;
+    "$sys_lock")
+        notify-send -u low -i system-lock-screen "System" "Locking screen..."
         betterlockscreen -l blur
         ;;
-    "Suspend")
+    "$sys_suspend")
+        notify-send -u normal -i system-suspend "System" "Suspending system..."
+        sleep 0.5
         systemctl suspend
         ;;
-    "Logout")
+    "$sys_logout")
+        notify-send -u normal -i system-log-out "Session" "Exiting Openbox session..."
+        sleep 0.5
         openbox --exit
         ;;
-    "Reboot")
+    "$sys_reboot")
+        notify-send -u critical -i system-reboot "System" "Rebooting machine..."
+        sleep 0.5
         systemctl reboot
         ;;
-    "Shutdown")
+    "$sys_shutdown")
+        notify-send -u critical -i system-shutdown "System" "Powering off machine..."
+        sleep 0.5
         systemctl poweroff
         ;;
     *)
+        # Exit on cancel or unmatched input
         exit 0
-        ;; # Exit on cancel or invalid input
+        ;;
 esac

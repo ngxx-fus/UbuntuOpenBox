@@ -258,6 +258,7 @@
       </position>
       <layer>above</layer>
     </application>
+    <!-- Float-term -->
     <application class="float-term">
       <maximized>no</maximized>
       <size>
@@ -340,7 +341,7 @@
     <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
     <keybind key="W-v">
       <action name="Execute">
-        <command>copyq toggle</command>
+        <command>/usr/bin/copyq toggle</command>
       </action>
     </keybind>
     <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
@@ -638,7 +639,7 @@
         <action name="Raise"/>
         <action name="Unshade"/>
       </finalactions> -->
-      <command>/usr/local/bin/skippy-xd --toggle --expose</command>
+      <command>skippy-xd --toggle-window-picker</command>
       </action>
     </keybind>
     <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->

@@ -4,21 +4,22 @@ export QT_IM_MODULE=fcitx
 export XMODIFIERS=@im=fcitx
 
 # Core services & Daemons
-lxpolkit &
-dunst -config ~/.config/openbox/dunst/dunstrc &
-picom --config ~/.config/openbox/picom/picom.conf -b &
-skippy-xd --start-daemon &
-fcitx5 -d &
+/usr/bin/lxpolkit                                               &
+/usr/bin/fcitx5 -d                                              &
+/usr/bin/dunst -config ~/.config/openbox/dunst/dunstrc          &
+/usr/bin/picom --config ~/.config/openbox/picom/picom.conf -b   &
+/usr/local/bin/skippy-xd --start-daemon                         &
+/usr/bin/copyq                                                  &
 
 # Wallpaper & Bar
-/home/fus/.config/openbox/scripts/background.sh &
-/home/fus/.config/openbox/polybar/polybar-ob &
+/home/fus/.config/openbox/scripts/background.sh                 &
+/home/fus/.config/openbox/polybar/polybar-ob                    &
 
 # Run xidlehook daemon with power-saving timers:
 # 1. Lock screen via betterlockscreen after 5 min (300s) of inactivity.
 # 2. Suspend system after an additional 10 min (600s) of inactivity.
 # Inactivity timer pauses when audio is playing or an app is fullscreen.
-xidlehook \
+/home/fus/.cargo/bin/xidlehook \
   --not-when-audio \
   --not-when-fullscreen \
   --timer 300 'betterlockscreen -l blur' '' \

@@ -11,7 +11,7 @@ window {
     x-offset: -10px;
     y-offset: 38px;
 
-    width: 280px;
+    width: 270px;
     transparency: "real";
     orientation: vertical;
     border: 2px;
@@ -86,12 +86,12 @@ element.normal.urgent {
 
 listview {
     columns: 1;
-    lines: 4;
-    padding: 6 8;
-    fixed-height: true;
+    padding: 6px 8px;
+    fixed-height: false;
     fixed-columns: true;
-    fixed-lines: true;
+    fixed-lines: false;
     border: 0;
+    expand: true;
 }
 
 // INPUT BAR

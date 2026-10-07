@@ -41,6 +41,9 @@ SetWallpaper() {
     # Apply wallpaper using feh fill mode
     feh --bg-fill "$target_img"
     echo "[+] Applied wallpaper: ${target_img}"
+    # Apply lock screen
+    betterlockscreen -u "$target_img"
+    echo "[+] Applied blur-lockscreen: ${target_img}"
 
     # Return success
     return 0
