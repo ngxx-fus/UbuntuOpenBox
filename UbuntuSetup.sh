@@ -32,7 +32,7 @@ CONF_INSTALL_CLANGD_EN=1
 
 # Use bash array for custom apps
 CONF_CUSTOM_APP_LIST=(
-    "wget" "curl" "htop" "neofetch" "btop" "tree" "duf" "tmux" "git" "plocate" "xdg-utils" "libgtk-3-bin"
+    "wget" "curl" "htop" "neofetch" "btop" "tree" "duf" "tmux" "git" "plocate" "xdg-utils" "libgtk-3-bin" "chromium"
 )
 
 ################################################################################################
