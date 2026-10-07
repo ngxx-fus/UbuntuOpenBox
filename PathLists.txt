@@ -5,6 +5,9 @@
 /home/fus/.config/skippy-xd/
 /home/fus/.config/Thunar/
 /home/fus/.config/dunst/
+/home/fus/.config/skippy-xd/
+/home/fus/.config/xfce4
+/home/fus/.config/obmenu-generator
 /etc/acpi/
 /etc/systemd/logind.conf
 /etc/X11/xorg.conf.d/

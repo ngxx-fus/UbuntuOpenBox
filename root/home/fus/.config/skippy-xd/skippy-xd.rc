@@ -24,7 +24,7 @@
 pipePath = /tmp/skippy-xd-fifo
 
 # Frequency to update pixmaps
-updateFreq = 60.0
+updateFreq = 30.0
 
 # This queries the list of windows
 # Depending on your window manager, you may want to choose between
@@ -117,7 +117,7 @@ tintOpacity = 0
 opacity = 255
 
 [highlight]
-tint = #464B71
+tint = #717046
 tintOpacity = 50
 opacity = 255
 
@@ -139,7 +139,7 @@ showDesktop = false
 showMonitor = false
 offsetX = 0
 offsetY = -5
-width = 0.8
+width = 0.5
 border = #ffffff
 background = #000000
 opacity = 128
@@ -155,12 +155,12 @@ font = fixed-11:weight=bold
 keysUp = Up
 keysDown = Down
 keysLeft = Left
-keysRight = Right
+keysRight = Right Tab
 
 keysSelect = Return space
 keysCancel = Escape
-keysNext = n
-keysPrev = p
+keysNext = Tab n Right Down
+keysPrev = ISO_Left_Tab p Left Up
 
 keysIconify = 1
 keysShade = 2
@@ -172,7 +172,7 @@ keysClose = 3
 # If there are no entries to the pivot key,
 # The behaviour is to toggle skippy-xd activation
 # And no keys need to be held or released
-keysPivotSwitch = Alt_L
+keysPivotSwitch = Super_L
 keysPivotExpose = 
 keysPivotPaging = 
 
