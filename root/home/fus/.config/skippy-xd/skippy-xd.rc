@@ -143,7 +143,7 @@ width = 0.5
 border = #ffffff
 background = #000000
 opacity = 128
-text = #ffffff
+text = #f   fffff
 textShadow = black
 font = fixed-11:weight=bold
 
@@ -155,12 +155,12 @@ font = fixed-11:weight=bold
 keysUp = Up
 keysDown = Down
 keysLeft = Left
-keysRight = Right Tab
+keysRight=Tab
 
 keysSelect = Return space
 keysCancel = Escape
-keysNext = Tab n Right Down
-keysPrev = ISO_Left_Tab p Left Up
+keysNext = Tab n
+keysPrev = ISO_Left_Tab p
 
 keysIconify = 1
 keysShade = 2
@@ -172,9 +172,9 @@ keysClose = 3
 # If there are no entries to the pivot key,
 # The behaviour is to toggle skippy-xd activation
 # And no keys need to be held or released
-keysPivotSwitch = Super_L
+keysPivotSwitch =
 keysPivotExpose = 
-keysPivotPaging = 
+keysPivotPaging =
 
 # mouse button bindings, options include
 # "no": do nothing
