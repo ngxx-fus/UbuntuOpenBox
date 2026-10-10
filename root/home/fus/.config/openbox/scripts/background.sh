@@ -5,6 +5,27 @@ setopt EXTENDED_GLOB
 
 # CONFIG ######################################################
 
+# Lockfile management to prevent concurrent executions
+PID_FILE="/tmp/background_slideshow.pid"
+
+# Terminate existing instance if already running
+if [[ -f "$PID_FILE" ]]; then
+    old_pid=$(cat "$PID_FILE")
+    # Verify if old process is still active
+    if kill -0 "$old_pid" 2>/dev/null; then
+        echo "[*] Killing previous background process (${old_pid})..."
+        kill "$old_pid" 2>/dev/null || true
+    fi
+    # Remove stale PID file
+    rm -f "$PID_FILE"
+fi
+
+# Register current process PID
+echo "$$" > "$PID_FILE"
+
+# Clean up PID file on exit or termination signals
+trap 'rm -f "$PID_FILE"; exit 0' INT TERM EXIT
+
 DIR_BACKGROUND_IMGS="${HOME}/Pictures/Wallpapers"
 FILE_BACKGROUND_IMG="${HOME}/Pictures/Wallpapers/default.png"
 
@@ -38,12 +59,13 @@ SetWallpaper() {
         return 1
     fi
 
+    # Apply lock screen before switch the background
+    betterlockscreen -u "$target_img"
+    echo "[+] Applied blur-lockscreen: ${target_img}"
+
     # Apply wallpaper using feh fill mode
     feh --bg-fill "$target_img"
     echo "[+] Applied wallpaper: ${target_img}"
-    # Apply lock screen
-    betterlockscreen -u "$target_img"
-    echo "[+] Applied blur-lockscreen: ${target_img}"
 
     # Return success
     return 0

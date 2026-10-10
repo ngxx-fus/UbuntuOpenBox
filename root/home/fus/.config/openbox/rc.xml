@@ -631,15 +631,7 @@
     <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
     <keybind key="W-Tab">
       <action name="Execute">
-      <!-- <action name="NextWindow">
-      <dialog>list</dialog>
-      <bar>no</bar>
-      <finalactions>
-        <action name="Focus"/>
-        <action name="Raise"/>
-        <action name="Unshade"/>
-      </finalactions> -->
-      <command>skippy-xd --toggle-window-picker</command>
+      <command>skippy-xd --toggle</command>
       </action>
     </keybind>
     <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->

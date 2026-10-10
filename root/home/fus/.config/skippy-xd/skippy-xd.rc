@@ -1,81 +1,97 @@
-# Copy this to ~/.config/skippy-xd/skippy-xd.rc and edit it to your liking
+# Skippy-xd config file
+#
+# Skippy-xd searches for this file in these locations,
+#    According to this order:
+# 1. $XDG_CONFIG_HOME/skippy-xd/skippy-xd.rc
+# 2. $HOME/.config/skippy-xd/skippy-xd.rc
+# 3. $XDG_CONFIG_DIRS/skippy-xd.rc
+# 4. /etc/xdg/skippy-xd.rc
 #
 # File Syntax:
 # Comments must be on their own seperate lines that start with a #
 #
-# colors can be anything XAllocNamedColor can handle
-# (like "black" or "#000000")
+# Colors can be anything XAllocNamedColor can handle
+# (Like "black" or "#000000")
 #
-# fonts are Xft font descriptions
+# Fonts are Xft font descriptions
 #
-# booleans are "true" or anything but "true" (-> false)
+# Booleans are "true" or anything but "true" (-> false)
 #
-# opacity is an integer in the range of 0-255
+# Opacity is an integer in the range of 0-255
 #
 
-# For system config options, stop and then start new skippy daemon
-# To reload config options
+# To reload system config options, stop and then start new skippy daemon
 # All other config options can be reloaded on the fly
-# With skippy-xd --config-reload
+# With skippy-xd --config or skippy-xd --config-reload
 
 [system]
 
-# File path of skippy-xd pipe daemon communication
-pipePath = /tmp/skippy-xd-fifo
+# File path for client-to-daemon communication
+daemonPath = /tmp/skippy-xd-fifo
 
-# Frequency to update pixmaps
-updateFreq = 30.0
+# File path for daemon-to-client communication
+clientPath = /tmp/skippy-xd-fofi
 
 # This queries the list of windows
 # Depending on your window manager, you may want to choose between
 # XQueryTree, _NET_CLIENT_LIST, _WIN_CLIENT_LIST
-# If you see missing windows, or windows that you did not expect,
+# If you see missing windows, extra windows, or even crashes,
 # Try a different option
-clientList = XQueryTree
+clientList = _NET_CLIENT_LIST
 
-# when compositors such as picom are not used
-# turn on pseudo-transparency
+# When compositors such as picom are not used
+# Turn on pseudo-transparency
 pseudoTrans = true
+
+[multimonitor]
+
+# Filter windows by Xinerama monitor
+showOnlyCurrentMonitor = true
+
+# Display only windows on the current XScreen
+showOnlyCurrentScreen = true
+
+# In multi-monitor environment,
+# Panels are displayed on the active monitor
+# Control how horizontal panels are aligned (left/mid/right)
+# And how vertical panels are aligned (top/mid/bottom)
+horizontalPanelAlignment = mid
+verticalPanelAlignment = mid
 
 [layout]
 
-# Wait time before displaying switch previews
+# cosmos: position preserving layout
+# rect: row-to-row layout
+# compactrect: compactized row-to-row layout
+switchLayout = rect
+exposeLayout = cosmos
+
+# Wait time in ms before displaying switch previews
+# Set = 0 to veto live previews completely
 switchWaitDuration = 100
 
-# Set = 0 to switch off animations
-# For switch, there is never animation
-animationDuration = 200
+# During switchWaitDuration and animation,
+# Whether switch can cycle through windows
+switchCycleDuringWait = false
 
-# Relative minimal distance between windows
+# Enable to cycle through all virtual desktops
+switchCycleDesktops = false
+exposeCycleDesktops = false
+
+# Relative minimal pixel distance between windows
 distance = 50
 
-# exposeLayout=xd uses the same layout as switcher, maximizing screen estate
-# exposeLayout=boxy tends to preserve window positions, thus guiding the eye more
-exposeLayout = boxy
+# Fill screen by upscaling windows
+upscaleWindows = false
 
-# Whether to show the window bigger than its original size
-allowUpscale = false
+[appearance]
 
-[filter]
+# Animation duration in ms
+# Set = 0 to switch off animations
+animationDuration = 200
 
-# in multi-monitor setting, whether to filter windows by monitor
-showOnlyCurrentMonitor = false
-
-# Choose whether to show shadow windows:
-# windows that are minimized, shaded, or on other virtual desktops
-showShadow = true
-
-# Choose whether to always display sticky windows
-showSticky = true
-
-# For switch and expose,
-# Whether to limit window select on current virtual desktop
-# Or allow window selection on all virtual desktops
-# Paging always show all desktops
-switchShowAllDesktops = false
-exposeShowAllDesktops = false
-
-[display]
+# Animation refresh rate in fps
+animationRefresh = 60
 
 # Background when skippy-xd is activated
 # To display background wallpaper:
@@ -86,97 +102,108 @@ exposeShowAllDesktops = false
 #   background = None
 background = #00000055
 
-# During paging mode, preserve original desktop appearance
-# From the background being applied
+# During paging, do not apply background to individual desktops
 preservePages = true
-
-# Move the mouse cursor when skippy is activated
-movePointer = false
 
 # Whether to display window frames
 includeFrame = true
 
-# Show window previews with rounded corners,
-# with corner radius in pixels
-cornerRadius = 5
+# Depending on your environment and window frame,
+# Introduce pixel offsets for better alignment
+leftFrameBorder = 0
+topFrameBorder = 0
 
-# Icon parameters
-showIconsOnThumbnails = true
-preferredIconSize = 48
+# Show window previews with rounded corners
+cornerRadius = 0
 
-# Box display when live preview is not available
-# Format: [left|mid|right] [left|mid|right] [COLOR|#FFFFFFFF]
-iconFillSpec = mid mid #333333
-# Box display when live preview is not available, and icon is not available
-# Format: [COLOR|#FFFFFFFF]
-fillSpec = #333333
-
-[normal]
-tint = black
-tintOpacity = 0
-opacity = 255
-
-[highlight]
-tint = #466771
-tintOpacity = 50
-opacity = 255
-
-[shadow]
-tint = #040404
-tintOpacity = 0
+# Windows that were never shown before
+[filler]
 opacity = 160
+color = #333333
+iconPlace = top left
+iconSize = 48
 
+# Live window previews
+[livepreview]
+opacity = 255
+icon = true
+iconPlace = top left
+iconSize = 48
+
+# Currently highlighted window
+[highlight]
+tint = #FFFFFF
+tintOpacity = 128
+tintWindow = true
+tintBorder = 10
+
+# Highlighted in multi-select mode
+[multiselect]
+tint = #66B6F6
+tintOpacity = 196
+
+# Windows of type _NET_WM_WINDOW_TYPE_DOCK
 [panel]
 show = true
-showDesktop = false
 backgroundTinting = true
-allowOverlap = true
-allowClick = false
+reserveSpace = true
 
-[tooltip]
+# Windows of type _NET_WM_WINDOW_TYPE_DESKTOP
+[desktop]
 show = true
-showDesktop = false
-showMonitor = false
+backgroundTinting = true
+
+# Label per display window
+# option = windowClass to display window class
+# option = windowTitle to display window title
+[label]
+show = true
+option = windowClass
 offsetX = 0
 offsetY = -5
-width = 0.5
-border = #ffffff
-background = #000000
-opacity = 128
-text = #f   fffff
-textShadow = black
+width = 0.8
+border = #0e0e0e
+background = #111111
+backgroundHighlight = #999999
+opacity = 196
+text = white
+textOutline = #0e0e0e
 font = fixed-11:weight=bold
 
 [bindings]
 
-# key* = is a list of valid XWindows KeySym identifiers, case
-# sensitive and <space> seperated list. Run the program 'xev' to find them.
+# When focus is stolen off skippy-xd
+# E.g. a window is newly created during skippy-xd activation
+# Focus back on skippy-xd
+enforceFocus = true
+
+# After this time in ms, pivot "locks" into toggle mode
+# And the pivot key no longer needs to be held
+# Set to 0 to disable pivot locking
+pivotLockingTime = 0
+
+# Reposition the mouse to the centre of the window
+moveMouse = false
+
+# key* = is a list of valid XWindows KeySym identifiers,
+# Case sensitive and <space> seperated list.
+# Run the program 'xev' to find them.
 
 keysUp = Up
 keysDown = Down
 keysLeft = Left
-keysRight=Tab
+keysRight = Right
 
 keysSelect = Return space
 keysCancel = Escape
-keysNext = Tab n
-keysPrev = ISO_Left_Tab p
+keysNext = n
+keysPrev = p
 
 keysIconify = 1
 keysShade = 2
 keysClose = 3
 
-# The "pivot" keys are the Alt in Alt-Tab
-# The key has to be held for skippy-xd to activate
-# And when the key is released, skippy-xd selects the highlighted window.
-# If there are no entries to the pivot key,
-# The behaviour is to toggle skippy-xd activation
-# And no keys need to be held or released
-keysPivotSwitch =
-keysPivotExpose = 
-keysPivotPaging =
-
-# mouse button bindings, options include
+# Mouse button bindings, options include
 # "no": do nothing
 # "focus": select window
 # "iconify": minimize window
