@@ -18,8 +18,9 @@ EXTERNAL=$(xrandr --query | grep " connected" | grep -v "^$INTERNAL" | head -n 1
 OPTIONS_ARR=(
     "1. PC screen only"
     "2. Duplicate"
-    "3. Extend"
-    "4. Second screen only"
+    "3. Extend 0"
+    "4. Extend 1"
+    "5. Second screen only"
 )
 OPTIONS=$(printf "%s\n" "${OPTIONS_ARR[@]}")
 
@@ -31,6 +32,56 @@ fi
 
 # Calculate next index in cycle (0 -> 1 -> 2 -> 3 -> 0)
 NEXT_INDEX=$(( (CURRENT_INDEX + 1) % 4 ))
+
+# Extend position
+#   Desc:
+#
+#	   .pos(row=0, col=0)
+#	   ################ W0 ####################
+#	   ########################################
+#	   H0 #####################################
+#	   ########################################
+#	   ########################################
+#                                               .pos(row=H0, col=W0)
+#                                               ################ W1 ####################
+#                                               ########################################
+#                                               H1 #####################################
+#                                               ########################################
+#                                               ########################################
+#                                                                                      .pos(row=H0+H1,col=W0+W1)
+# Monitor w/h setup
+MON0_W=1920
+MON0_H=1080
+MON1_W=1920
+MON1_H=1200
+
+# Call back to handle the extend mode
+extend_apply() {
+    # profile select 
+    MONITOR_PROFILE=$1 
+    # profile 0: (default) MON0|MON1
+    MONITOR_0_POX_ROW=0 
+    MONITOR_0_POX_COL=0 
+    MONITOR_1_POX_ROW=0 
+    MONITOR_1_POX_COL=$MON0_W
+
+    case $MONITOR_PROFILE in 
+        1)
+            MONITOR_0_POX_ROW=0 
+            MONITOR_0_POX_COL=0 
+            MONITOR_1_POX_ROW=$MON0_H
+            MONITOR_1_POX_COL=0
+            ;;
+        *)
+            : # NOP
+            ;;
+
+    esac
+    # apply 
+    xrandr \
+        --output "$INTERNAL" --mode "${MON0_W}x${MON0_H}" --pos "${MONITOR_0_POX_COL}x${MONITOR_0_POX_ROW}" --primary \
+        --output "$INTERNAL" --mode "${MON1_W}x${MON1_H}" --pos "${MONITOR_1_POX_COL}x${MONITOR_1_POX_ROW}"
+}
 
 ###################################################################################################
 # ACTION
@@ -63,11 +114,13 @@ case "$CHOICE" in
         xrandr --output "$INTERNAL" --auto --output "$EXTERNAL" --auto --same-as "$INTERNAL"
         echo 1 > "$PROJECT_MODE"
         ;;
-    "3. Extend")
-        xrandr --output "$INTERNAL" --auto --primary --output "$EXTERNAL" --auto --right-of "$INTERNAL"
-        echo 2 > "$PROJECT_MODE"
+    "2. Extend 0")
+        extend_apply 0 # profile: 0
         ;;
-    "4. Second screen only")
+    "4. Extend 1")
+        extend_apply 1 # profile: 1
+        ;;
+    "5. Second screen only")
         xrandr --output "$INTERNAL" --off --output "$EXTERNAL" --auto --primary
         echo 3 > "$PROJECT_MODE"
         ;;
